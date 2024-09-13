@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "77637251215",
+    "project_id": "rbuy-4310a",
+    "storage_bucket": "rbuy-4310a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:77637251215:android:86317be0cbb89ece8e80fa",
+        "android_client_info": {
+          "package_name": "com.Rbuy.rbuy_notification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "77637251215-gcdejes2m0vd17hoemlg6bn6rcnanpt6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Rbuy.rbuy_notification",
+            "certificate_hash": "b27b1071bfacf9e29f493ad64bab2c2730849468"
+          }
+        },
+        {
+          "client_id": "77637251215-cf8nao21f2u6bae31vqdl80kb3p19mlj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHwBowmuU3F5UwZ0kDj4KmVTIqC3U22vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "77637251215-cf8nao21f2u6bae31vqdl80kb3p19mlj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "77637251215-7k8qemb1pk3h3ukiu27hid86m2o2fdh0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Rbuy.rbuyNotification"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:77637251215:android:1af0b7300e81da2d8e80fa",
+        "android_client_info": {
+          "package_name": "com.rbuy.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "77637251215-dsim4v4tvgqo7nnr5s7j7ekts8ilpjn3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rbuy.app",
+            "certificate_hash": "b27b1071bfacf9e29f493ad64bab2c2730849468"
+          }
+        },
+        {
+          "client_id": "77637251215-cf8nao21f2u6bae31vqdl80kb3p19mlj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHwBowmuU3F5UwZ0kDj4KmVTIqC3U22vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "77637251215-cf8nao21f2u6bae31vqdl80kb3p19mlj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "77637251215-7k8qemb1pk3h3ukiu27hid86m2o2fdh0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Rbuy.rbuyNotification"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
