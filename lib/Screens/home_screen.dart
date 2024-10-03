@@ -13,14 +13,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 0;  // Controls the current tab.
   late NotificationService _notificationService;
 
   @override
   void initState() {
     super.initState();
     _notificationService = NotificationService();
-    _notificationService.init();
+    _notificationService.init();  // Set up notifications.
   }
 
   @override
@@ -39,10 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SafeArea(
           child: Column(
             children: [
+              // App bar with title and sign out button.
               _buildAppBar(authService),
               Expanded(
                 child: IndexedStack(
-                  index: _selectedIndex,
+                  index: _selectedIndex,  // Switch between tabs.
                   children: [
                     _buildDashboard(authService),
                     _buildNotificationCenter(),
@@ -50,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+              // Bottom navigation bar to switch between screens.
               _buildBottomNavBar(),
             ],
           ),
@@ -58,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Custom app bar with sign-out functionality.
   Widget _buildAppBar(AuthService authService) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -72,11 +75,12 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.white,
             ),
           ),
+          // Sign-out button
           IconButton(
             icon: Icon(Icons.exit_to_app, color: Colors.white),
             onPressed: () async {
-              await authService.signOut(context);
-              Navigator.of(context).pushReplacementNamed('/auth');
+              await authService.signOut(context);  // Call the sign out function.
+              Navigator.of(context).pushReplacementNamed('/auth');  // Navigate back to login.
             },
           ),
         ],
@@ -84,6 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Main dashboard with stats and quick actions.
   Widget _buildDashboard(AuthService authService) {
     return SingleChildScrollView(
       child: Padding(
@@ -91,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Greet the user by their name.
             Text(
               'Welcome, ${authService.currentUser?.displayName ?? "User"}!',
               style: GoogleFonts.poppins(
@@ -100,17 +106,18 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height: 20),
-            _buildNotificationStatsCard(),
+            _buildNotificationStatsCard(),  // Chart for notification stats.
             SizedBox(height: 20),
-            _buildQuickActionsCard(),
+            _buildQuickActionsCard(),  // Quick action buttons.
             SizedBox(height: 20),
-            _buildRecentActivityCard(),
+            _buildRecentActivityCard(),  // Show recent notifications.
           ],
         ),
       ),
     );
   }
 
+  // Card displaying a line chart with notification stats.
   Widget _buildNotificationStatsCard() {
     return Card(
       elevation: 4,
@@ -138,50 +145,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(height: 20),
+              // Displaying the line chart using fl_chart package.
               Container(
                 height: 200,
                 child: LineChart(
                   LineChartData(
-                    gridData: FlGridData(show: false),
+                    gridData: FlGridData(show: false),  
                     titlesData: FlTitlesData(
                       show: true,
                       bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
+                        sideTitles: SideTitles(showTitles: false),  
                       ),
                       leftTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      topTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      rightTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
+                        sideTitles: SideTitles(showTitles: false),  
                       ),
                     ),
-                    borderData: FlBorderData(show: false),
-                    minX: 0,
-                    maxX: 6,
-                    minY: 0,
-                    maxY: 6,
+                    borderData: FlBorderData(show: false),  // Hide chart borders.
+                    minX: 0, maxX: 6,  // X-axis range for notification counts.
+                    minY: 0, maxY: 6,  // Y-axis range for notification counts.
                     lineBarsData: [
                       LineChartBarData(
                         spots: [
-                          FlSpot(0, 3),
+                          FlSpot(0, 3),  // Data points for the chart.
                           FlSpot(1, 1),
                           FlSpot(2, 4),
                           FlSpot(3, 2),
                           FlSpot(4, 5),
                           FlSpot(5, 1),
-                          FlSpot(6, 4),
-                        ],
-                        isCurved: true,
-                        color: Colors.white,
-                        barWidth: 4,
-                        isStrokeCapRound: true,
-                        dotData: FlDotData(show: false),
+                          FlSpot(6, 4),                        ],
+                        isCurved: true,  // Curved line for smooth transition.
+                        color: Colors.white,  
+                        barWidth: 4,  
                         belowBarData: BarAreaData(
                           show: true,
-                          color: Colors.white.withOpacity(0.3),
+                          color: Colors.white.withOpacity(0.3),  
                         ),
                       ),
                     ],
@@ -195,7 +192,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-Widget _buildQuickActionsCard() {
+  // Quick actions like Preferences, History, and Test Notification.
+  Widget _buildQuickActionsCard() {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -225,6 +223,7 @@ Widget _buildQuickActionsCard() {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
+                  // Preferences button.
                   _buildQuickActionButton(
                     icon: Icons.settings,
                     label: 'Preferences',
@@ -236,6 +235,7 @@ Widget _buildQuickActionsCard() {
                       );
                     },
                   ),
+                  // Notification history button.
                   _buildQuickActionButton(
                     icon: Icons.history,
                     label: 'History',
@@ -247,12 +247,13 @@ Widget _buildQuickActionsCard() {
                       );
                     },
                   ),
+                  // Test notification button.
                   _buildQuickActionButton(
                     icon: Icons.notifications_active,
                     label: 'Test',
                     color: Colors.white,
                     onPressed: () {
-                      _notificationService.sendTargetedNotification();
+                      _notificationService.sendTargetedNotification();  // Trigger a test notification.
                     },
                   ),
                 ],
@@ -264,6 +265,7 @@ Widget _buildQuickActionsCard() {
     );
   }
 
+  // Helper method to create quick action buttons.
   Widget _buildQuickActionButton({
     required IconData icon,
     required String label,
@@ -290,6 +292,7 @@ Widget _buildQuickActionsCard() {
     );
   }
 
+  // Recent activity card showing recent notifications.
   Widget _buildRecentActivityCard() {
     return Card(
       elevation: 4,
@@ -317,11 +320,12 @@ Widget _buildQuickActionsCard() {
                 ),
               ),
               SizedBox(height: 20),
+              // Display recent notifications using FutureBuilder.
               FutureBuilder<List<Map<String, dynamic>>>(
                 future: _notificationService.getRecentNotifications(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return CircularProgressIndicator();  // Show loading indicator.
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -360,6 +364,7 @@ Widget _buildQuickActionsCard() {
     );
   }
 
+  // Helper method to format the notification timestamp.
   String _formatTimestamp(dynamic timestamp) {
     if (timestamp == null) return '';
     final dateTime = timestamp.toDate();
@@ -376,6 +381,7 @@ Widget _buildQuickActionsCard() {
     }
   }
 
+  // Notification center screen (placeholder).
   Widget _buildNotificationCenter() {
     return Center(
       child: Column(
@@ -405,6 +411,7 @@ Widget _buildQuickActionsCard() {
     );
   }
 
+  // User profile screen.
   Widget _buildProfile(AuthService authService) {
     return Center(
       child: Column(
@@ -435,8 +442,7 @@ Widget _buildQuickActionsCard() {
           SizedBox(height: 30),
           ElevatedButton(
             onPressed: () {
-              // Implement edit profile functionality
-              // For now, just show a dialog
+              // Implement edit profile functionality (placeholder).
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
@@ -464,6 +470,7 @@ Widget _buildQuickActionsCard() {
     );
   }
 
+  // Bottom navigation bar for switching between dashboard, notifications, and profile.
   Widget _buildBottomNavBar() {
     return Container(
       decoration: BoxDecoration(
@@ -474,15 +481,15 @@ Widget _buildQuickActionsCard() {
         ),
       ),
       child: BottomNavigationBar(
-        currentIndex: _selectedIndex,
+        currentIndex: _selectedIndex,  // Current selected tab.
         onTap: (index) {
           setState(() {
-            _selectedIndex = index;
+            _selectedIndex = index;  // Switch tabs.
           });
         },
-        backgroundColor: Colors.transparent,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white60,
+        backgroundColor: Colors.transparent,  
+        selectedItemColor: Colors.white,  
+        unselectedItemColor: Colors.white60,  
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Dashboard'),
           BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications'),

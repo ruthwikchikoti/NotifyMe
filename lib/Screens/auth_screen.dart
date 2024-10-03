@@ -4,6 +4,7 @@ import 'package:your_app_name/Services/auth_service.dart';
 import 'package:your_app_name/Screens/home_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// The screen for authentication.
 class AuthScreen extends StatefulWidget {
   @override
   _AuthScreenState createState() => _AuthScreenState();
@@ -20,6 +21,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
+    // Initialize the animation controller and fade animation.
     _animationController = AnimationController(vsync: this, duration: Duration(seconds: 2));
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
     _animationController.forward();
@@ -27,12 +29,14 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
 
   @override
   void dispose() {
+    // Dispose the animation controller.
     _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // Access the authentication service from the provider.
     final authService = Provider.of<AuthService>(context);
 
     return Scaffold(
@@ -52,6 +56,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: 50),
+                  // Show a notification icon with a fade-in animation.
                   FadeTransition(
                     opacity: _fadeAnimation,
                     child: Icon(
@@ -61,6 +66,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
                     ),
                   ),
                   SizedBox(height: 30),
+                  // Show the title with a fade-in animation.
                   FadeTransition(
                     opacity: _fadeAnimation,
                     child: Text(
@@ -77,6 +83,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
                     key: _formKey,
                     child: Column(
                       children: [
+                        // Email field with a fade-in animation.
                         FadeTransition(
                           opacity: _fadeAnimation,
                           child: TextFormField(
@@ -99,6 +106,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
                           ),
                         ),
                         SizedBox(height: 20),
+                        // Password field with a fade-in animation.
                         FadeTransition(
                           opacity: _fadeAnimation,
                           child: TextFormField(
@@ -122,6 +130,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
                           ),
                         ),
                         SizedBox(height: 30),
+                        // Sign in or sign up button with a fade-in animation.
                         FadeTransition(
                           opacity: _fadeAnimation,
                           child: ElevatedButton(
@@ -158,6 +167,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
                           ),
                         ),
                         SizedBox(height: 20),
+                        // Toggle sign in and sign up buttons with a fade-in animation.
                         FadeTransition(
                           opacity: _fadeAnimation,
                           child: TextButton(
@@ -173,6 +183,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
                           ),
                         ),
                         SizedBox(height: 20),
+                        // Sign in with Google button with a fade-in animation.
                         FadeTransition(
                           opacity: _fadeAnimation,
                           child: ElevatedButton.icon(

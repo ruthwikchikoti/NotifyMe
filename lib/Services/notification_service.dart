@@ -5,16 +5,22 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:math';
-
 class NotificationService {
+  // The Firebase Cloud Messaging (FCM) service
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+
+  // The local notifications plugin
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  // A timer that is used to send targeted notifications at a regular interval
   Timer? _notificationTimer;
 
+  // Boolean values that determine whether to send targeted notifications of a particular type
   bool _newUpdates = false;
   bool _promotions = false;
   bool _offers = false;
 
+  // Lists of messages that are used for targeted notifications
   final List<String> _updateMessages = [
     "Check out our latest app update!",
     "New features available now",
@@ -33,6 +39,7 @@ class NotificationService {
     "Flash sale: Next 24 hours only!"
   ];
 
+  // Initializes the FCM service and sets up the local notifications plugin
   Future<void> init() async {
     NotificationSettings settings = await _fcm.requestPermission(
       alert: true,
@@ -75,6 +82,7 @@ class NotificationService {
     }
   }
 
+  // Initializes the local notifications plugin
   Future<void> _initializeLocalNotifications() async {
     const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
     final InitializationSettings initializationSettings = InitializationSettings(
@@ -83,6 +91,7 @@ class NotificationService {
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
+  // Saves the FCM token to Firestore
   Future<void> _saveTokenToFirestore(String token) async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
@@ -91,6 +100,7 @@ class NotificationService {
         .set({'token': token}, SetOptions(merge: true));
   }
 
+  // Shows a local notification
   Future<void> _showNotification(RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
@@ -112,6 +122,7 @@ class NotificationService {
     }
   }
 
+  // Stores a notification in Firestore
   Future<void> _storeNotification(RemoteMessage message) async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
@@ -125,6 +136,7 @@ class NotificationService {
     });
   }
 
+  // Loads the user's notification preferences
   Future<void> _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     _newUpdates = prefs.getBool('newUpdates') ?? false;
@@ -132,6 +144,7 @@ class NotificationService {
     _offers = prefs.getBool('offers') ?? false;
   }
 
+  // Updates the user's notification preferences
   Future<void> updateNotificationPreferences(String frequency, bool newUpdates, bool promotions, bool offers) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('newUpdates', newUpdates);
@@ -144,6 +157,7 @@ class NotificationService {
     await updateNotificationFrequency(frequency);
   }
 
+  // Updates the frequency of targeted notifications
   Future<void> updateNotificationFrequency(String frequency) async {
     _notificationTimer?.cancel();
 
@@ -178,6 +192,7 @@ class NotificationService {
     }
   }
 
+  // Sends a targeted notification
   Future<void> sendTargetedNotification() async {
     String? title;
     String? body;
@@ -219,7 +234,7 @@ class NotificationService {
           ),
         ),
       );
-      
+
       // Store the notification in Firestore
       String userId = FirebaseAuth.instance.currentUser!.uid;
       await FirebaseFirestore.instance
@@ -234,6 +249,7 @@ class NotificationService {
     }
   }
 
+  // Gets the user's recent notifications
   Future<List<Map<String, dynamic>>> getRecentNotifications() async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance

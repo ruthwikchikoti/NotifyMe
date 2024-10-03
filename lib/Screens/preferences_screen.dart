@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:your_app_name/Services/notification_service.dart';
 
+/// A screen for the user to customize their notification preferences.
 class PreferencesScreen extends StatefulWidget {
   @override
   _PreferencesScreenState createState() => _PreferencesScreenState();
 }
 
+/// The state of the [PreferencesScreen].
 class _PreferencesScreenState extends State<PreferencesScreen> {
   String _selectedFrequency = '1 min';
   final List<String> _frequencies = ['5 sec', '10 sec', '1 min', 'daily', 'weekly'];
-  
+
   bool _newUpdates = false;
   bool _promotions = false;
   bool _offers = false;
@@ -21,6 +23,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     _loadPreferences();
   }
 
+  /// Load the user's notification preferences from SharedPreferences.
   _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -31,6 +34,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     });
   }
 
+  /// Save the user's notification preferences to SharedPreferences.
   _savePreferences() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('notificationFrequency', _selectedFrequency);

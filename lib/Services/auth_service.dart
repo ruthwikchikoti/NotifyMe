@@ -5,14 +5,19 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// define the AuthService class
 class AuthService with ChangeNotifier {
+  // initialize the FirebaseAuth instance, GoogleSignIn instance, and FirebaseFirestore instance
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  // get the current user
   User? get currentUser => _auth.currentUser;
+  // get a stream of user changes
   Stream<User?> get user => _auth.authStateChanges();
 
+// sign in with email and password
   Future<UserCredential?> signInWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
@@ -25,6 +30,7 @@ class AuthService with ChangeNotifier {
     }
   }
 
+  // sign up with email and password
   Future<UserCredential?> signUpWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
@@ -37,17 +43,22 @@ class AuthService with ChangeNotifier {
     }
   }
 
+  // sign in with Google
+
   Future<UserCredential?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
       if (googleSignInAccount != null) {
+        // Obtain the auth details from google sign in
         final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
 
+        // Create a new credential
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
 
+        // Sign in with credential
         UserCredential result = await _auth.signInWithCredential(credential);
         await _updateUserData(result.user);
         notifyListeners();
@@ -59,12 +70,15 @@ class AuthService with ChangeNotifier {
     return null;
   }
 
+  // key for the navigator 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+  // sign out
   Future<void> signOut(BuildContext context) async {
     await _auth.signOut();
     await _googleSignIn.signOut();
     notifyListeners();
+    // Navigate back to the login screen
     navigatorKey.currentState?.pushReplacementNamed('/auth');
   }
 
